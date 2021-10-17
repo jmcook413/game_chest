@@ -2,7 +2,7 @@ defmodule GameChest.Spades do
   alias GameChest.Cards
   alias GameChest.Dealer
 
-  defstruct [:game_id, :hands, :teams, :scores, :bids]
+  defstruct [:game_id, :hands, :teams, :scores, bids: []]
 
   def start(players) do
     %{deck: _deck, hands: hands} = deal(players)
@@ -13,6 +13,10 @@ defmodule GameChest.Spades do
       teams: teams,
       scores: [{team1, 0}, {team2, 0}]
     }
+  end
+
+  def set_bid(game, bid = {_player, _number}) do
+    Map.merge(game, %{bids: [bid | game.bids]})
   end
 
   defp deal(players) do
